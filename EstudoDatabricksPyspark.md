@@ -51,8 +51,10 @@ df3.write.format("csv").mode("overwrite").save("/aprendizado/marca_carro")
 print(df1.count())
 
 # nesse caso estamos lendo o diretorio aprendizado que criamos, ou seja, locais diferentes.
-df.carros = spark.read.format("csv").load("/aprendizado/modelo_carro")
+df_carros = spark.read.format("csv").load("/aprendizado/modelo_carro")
+print(df_carros.count())
 
+# Visualizando os outros dfs gravados no DBFS.
 print(df2.count())
 print(df3.count())
 
