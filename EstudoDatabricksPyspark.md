@@ -9,3 +9,13 @@ df2 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/sh
 df3 = spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/shared_uploads/duaugusto@gmail.com/marca_carro.csv")
 
 ```
+---
+
+> Vamos dar um display para verificar os dataframes carregados a partir dos arquivos.
+
+```py
+display(df1)
+display(df2)
+display(df3)
+
+```
