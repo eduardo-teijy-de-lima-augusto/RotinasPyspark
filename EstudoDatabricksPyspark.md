@@ -47,8 +47,16 @@ df3.write.format("csv").mode("overwrite").save("/aprendizado/marca_carro")
 > Agora vamos contar as linhas dos dataframes.
 
 ```py
+# Nesse caso estamos lendo o primeiro df que foi gravado no diretorio padrão DBFS, não confundir.
 print(df1.count())
+
+# nesse caso estamos lendo o diretorio aprendizado que criamos, ou seja, locais diferentes.
+df.carros = spark.read.format("csv").load("/aprendizado/modelo_carro")
+
 print(df2.count())
 print(df3.count())
 
 ```
+---
+
+
