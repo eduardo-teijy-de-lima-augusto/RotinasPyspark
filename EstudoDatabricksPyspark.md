@@ -19,3 +19,13 @@ display(df2)
 display(df3)
 
 ```
+---
+
+> Agora vamos escrever esses dataframes em outro local (pasta) usando o write.
+
+```py
+df1.write.format("csv").save("/aprendizado/modelo_carro")
+df2.write.format("csv").save("/aprendizado/marcas_duplicadas")
+df3.write.format("csv").save("/aprendizado/marca_carro")
+
+```
