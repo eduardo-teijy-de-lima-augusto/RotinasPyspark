@@ -44,3 +44,11 @@ df3.write.format("csv").mode("overwrite").save("/aprendizado/marca_carro")
 ```
 ---
 
+> Agora vamos contar as linhas dos dataframes.
+
+```py
+print(df1.count())
+print(df2.count())
+print(df3.count())
+
+```
