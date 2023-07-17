@@ -29,3 +29,18 @@ df2.write.format("csv").save("/aprendizado/marcas_duplicadas")
 df3.write.format("csv").save("/aprendizado/marca_carro")
 
 ```
+---
+
+> Uma vez criado os dataframes no local indicado podemos usar o comando append ou overwrite, onde o primeiro vai inserir mais dados ao dataframe e o segundo substituirá o conteúdo do dataframe.
+
+```py
+# Insere novos registro ou duplica os mesmos.
+df1.write.format("csv").mode("append").save("/aprendizado/modelo_carro")
+
+# Substitui o conteúdo.
+df2.write.format("csv").mode("overwrite").save("/aprendizado/marcas_duplicadas")
+df3.write.format("csv").mode("overwrite").save("/aprendizado/marca_carro")
+
+```
+---
+
