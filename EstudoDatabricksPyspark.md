@@ -61,4 +61,9 @@ print(df3.count())
 ```
 ---
 
+```py
+# Passando a option "header" para que possamos ler o cabeçalho que esta na primeira linha do arquivo.
+> df_carros = spark.read.format("csv").option("header", True).load("/aprendizado/modelo_carro")
+
+```
 
