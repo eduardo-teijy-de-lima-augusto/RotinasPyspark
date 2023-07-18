@@ -185,6 +185,17 @@ display(df_carros_sql)
 
 ```
 ---
+> Agora vamos fazer esses selects no pyspark com distinct
+
+```py
+# Vamos definir um datatrame que vai receber o resultado de outro dataframe.
+
+df_carros_pyspark = df_carros.distinct()   # Lembrando que df_carros tem a tabela duplicada.
+
+print(df_carros.count())     # verificando quantos registros em em df_carros
+print(df_carros_pyspark.count())   # verificando o resultado do dataframe com o distinct.
+
+```
 
 
 
