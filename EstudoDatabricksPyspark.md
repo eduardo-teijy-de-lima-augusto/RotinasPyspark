@@ -170,6 +170,21 @@ SELECT
 FROM CARROS;
 
 ```
+> Se quisermos gravar o resultado em um dataframe para uso posterior podemos fazer o seguinte.
+
+```py
+
+df_carros_sql = spark.sql("""
+
+SELECT
+     REPLACE(PRECO,'$','') AS PRECO
+FROM CARROS;
+
+""")
+display(df_carros_sql)
+
+```
 ---
+
 
 
