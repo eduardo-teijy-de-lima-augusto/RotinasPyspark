@@ -64,7 +64,23 @@ print(df3.count())
 
 ```py
 # Passando a option "header" para que possamos ler o cabeçalho que esta na primeira linha do arquivo.
-> df_carros = spark.read.format("csv").option("header", True).load("/aprendizado/modelo_carro")
+df_carros = spark.read.format("csv").option("header", True).load("/aprendizado/modelo_carro")
+
+# Podemos ainda colocar a option delimiter para dizer qual é o delimitador usado no csv
+df_carros = spark.read.format("csv").option("header", True).option("delimiter", ",").load("/aprendizado/modelo_carro")
+
+
+# Para concatenar melhor o codigo se usa a \
+# Podemos ainda colocar a option delimiter para dizer qual é o delimitador usado no csv
+df_carros = spark.read.format("csv").option("header", True).option("delimiter", ",").load("/aprendizado/modelo_carro")
+
+# Nesse codigo usamos a option enconding utf-8 para caracteres e acentuações ja concatenado.
+df_carros = spark.read \
+            .format("csv") \
+            .option("header", True) \
+            .option("delimiter", ",") \
+            .option("encoding", "utf-8") \
+            .load("/aprendizado/modelo_carro") 
 
 ```
 
