@@ -73,6 +73,14 @@ df_carros = spark.read.format("csv").option("header", True).option("delimiter", 
 # Para concatenar melhor o codigo se usa a \
 # Podemos ainda colocar a option delimiter para dizer qual é o delimitador usado no csv
 df_carros = spark.read.format("csv").option("header", True).option("delimiter", ",").load("/aprendizado/modelo_carro")
+display(df_carros)
+
+# Outra forma de passar o delimitador é:
+df_carros = spark.read \
+            .format("csv") \
+            .option("header", True) \
+            .load("/aprendizado/modelo_carro", sep = ",")  #outra forma com sep
+display(df_carros)
 
 # Nesse codigo usamos a option enconding utf-8 para caracteres e acentuações ja concatenado.
 df_carros = spark.read \
@@ -83,4 +91,32 @@ df_carros = spark.read \
             .load("/aprendizado/modelo_carro") 
 
 ```
+---
+
+> Podemos escrever os dados que estão em csv para outros formatos como parquet, json ou avro.
+
+```py
+# Escrevendo os arquivos em formato parquet, json e avro
+# Nao esquecendo que também podemos usar o option append ou overwrite
+df_carros.write.format("parquet").save("/aprendizado/modelo_carro_parquet")
+df_carros.write.format("json").save("/aprendizado/modelo_carro_json")
+df_carros.write.format("avro").save("/aprendizado/modelo_carro_avro")
+
+```
+---
+> Agora vamos ler o arquivo json como exemplo
+
+```py
+# Sempre vamos precisar de outro dataframe para fazer a leitura.
+
+df_carros_json = spark.read \
+                .format("json") \
+                .option("header", True) \
+                .load("/aprendizado/modelo_carro_json")
+display(df_carros_json)
+
+```
+---
+
+
 
