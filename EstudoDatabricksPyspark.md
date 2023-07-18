@@ -158,9 +158,12 @@ df_carros.createOrReplaceTempView("carros")      # note que chamamos a tabela de
 %sql
 --Percebi que para cada query precisa colocar o ;
 --Então não faz muito sentido pois nao vai rodar tudo, vai rodar uma e mostrar so a ultima.
-SELECT * FROM CARROS WHERE id_carro='1';
+SELECT *
+FROM CARROS 
+WHERE id_carro='1';
 
-SELECT DISTINCT * FROM CARROS; 
+SELECT DISTINCT * 
+FROM CARROS; 
 
 SELECT
      REPLACE(PRECO,'$','') AS PRECO
