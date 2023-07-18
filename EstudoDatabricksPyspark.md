@@ -219,12 +219,12 @@ display(df_carros)
 ```
 ---
 <div align="center">
-    <img src="./pngs/df_carros_spark_2.png" alt="DashGo Sistema" height="100">
+    <img src="./pngs/df_carros_spark_2.png" alt="DashGo Sistema" height="250">
 </div>
 
 
 <div align="center">
-    <img src="./Pngs/dfcarrosspark2.png" alt="DashGo Sistema" height="100">
+    <img src="./pngs/dfcarrosspark2.png" alt="DashGo Sistema" height="100">
 </div>
 
 
