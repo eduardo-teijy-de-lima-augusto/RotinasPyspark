@@ -51,7 +51,8 @@ df3.write.format("csv").mode("overwrite").save("/aprendizado/marca_carro")
 print(df1.count())
 
 # nesse caso estamos lendo o diretorio aprendizado que criamos, ou seja, locais diferentes.
-df_carros = spark.read.format("csv").load("/aprendizado/modelo_carro")
+# a opção .option("header", True) possibilita colocar a primeira linha como cabeçalho.
+df_carros = spark.read.format("csv").option("header", True).load("/aprendizado/modelo_carro")
 print(df_carros.count())
 
 # Visualizando os outros dfs gravados no DBFS.
