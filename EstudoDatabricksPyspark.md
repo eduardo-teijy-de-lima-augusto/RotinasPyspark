@@ -154,10 +154,17 @@ df_carros.createOrReplaceTempView("carros")      # note que chamamos a tabela de
 > Agora vamos rodar um script em SQL usando o databricks
 
 ```sql
--- Select em SQL
+
 %sql
-SELECT * FROM CARROS WHERE id_carro='1'
-SELECT COUNT(*) FROM CARROS WHERE ID='1'
+--Percebi que para cada query precisa colocar o ;
+--Então não faz muito sentido pois nao vai rodar tudo, vai rodar uma e mostrar so a ultima.
+SELECT * FROM CARROS WHERE id_carro='1';
+
+SELECT DISTINCT * FROM CARROS; 
+
+SELECT
+     REPLACE(PRECO,'$','') AS PRECO
+FROM CARROS;
 
 ```
 ---
