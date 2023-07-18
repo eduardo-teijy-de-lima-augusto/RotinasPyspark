@@ -135,6 +135,30 @@ display(df_carros_json)
 ```py
 #Defina o DF (tome cuidado ao definir dataframes pois ele vai substituir algum já usado)
 
-df_carros_select = spark.read.format("csv").load("/aprendizado/modelo_carro")
+# Select basico 
+df_carros = spark.read.format("csv").option("header", True).load("/aprendizado/modelo_carro")
+display(
+        df_carros.where("id_carro = '1'")     #Sempre com display para mostrar o resultado 
+       )
+
+```
+---
+
+> VAMOS USAR O Transaction SQL para fazer um exemplo
+
+```py
+# Criando uma tabela temporária que irá receber o SELECT do SQL.
+df_carros.createOrReplaceTempView("carros")      # note que chamamos a tabela de carros
+
+```
+> Agora vamos rodar um script em SQL usando o databricks
+
+```sql
+-- Select em SQL
+SELECT * FROM CARROS WHERE ID='1'
+SELECT COUNT(*) FROM CARROS WHERE ID='1'
+
+```
+---
 
 
