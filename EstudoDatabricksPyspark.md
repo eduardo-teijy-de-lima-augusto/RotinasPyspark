@@ -155,6 +155,7 @@ df_carros.createOrReplaceTempView("carros")      # note que chamamos a tabela de
 
 ```sql
 -- Select em SQL
+%sql
 SELECT * FROM CARROS WHERE ID='1'
 SELECT COUNT(*) FROM CARROS WHERE ID='1'
 
