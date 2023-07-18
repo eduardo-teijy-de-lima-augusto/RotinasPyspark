@@ -209,7 +209,7 @@ from pyspark.sql.functions import regexp_replace      #Poderiamos colocar o * qu
 df_carros_spark_2 = df_carros     # definindo que o novo dataframe receberá os dados de df_carros
 
 df_carros_spark_2 = df_carros_spark_2 \
-                    .withColumn("preco", regexp_replace("preco","\$",""))  # detalhe importante sobre o \ pois sem ele nao faz a substituição.
+                    .withColumn("preco", regexp_replace("preco","\$",""))  #importante o \ para a substituição.
 
 # colocamos esse novo dataframe para nao perder o dataframe df_carros que ainda contem o original dos dados.
 display(df_carros_spark_2)
