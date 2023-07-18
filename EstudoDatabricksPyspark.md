@@ -44,6 +44,18 @@ df3.write.format("csv").mode("overwrite").save("/aprendizado/marca_carro")
 ```
 ---
 
+> DELETANDO PASTAS NO DATABRICKS ****TOMAR CUIDADO.
+
+```PY
+# Funciona
+dbutils.fs.rm("/aprendizado/modelo_carro", True)
+
+# Funciona também.
+%fs rm -r /aprendizado/modelo_carro
+
+```
+---
+
 > Agora vamos contar as linhas dos dataframes.
 
 ```py
@@ -118,5 +130,11 @@ display(df_carros_json)
 ```
 ---
 
+> SELECT no pyspark. Vamos ler a tabela e as opções.
+
+```py
+#Defina o DF (tome cuidado ao definir dataframes pois ele vai substituir algum já usado)
+
+df_carros_select = spark.read.format("csv").load("/aprendizado/modelo_carro")
 
 
