@@ -224,6 +224,29 @@ display(df_carros)
 
 ---
 
+> Tipagem de dados usando databricks, fonte: https://docs.databricks.com/sql/language-manual/sql-ref-datatypes.html
+
+```py
+
+# Tipagem de dados no databricks
+# fonte: https://docs.databricks.com/sql/language-manual/sql-ref-datatypes.html
+
+from pyspark.sql.functions import regexp_replace 
+
+df_carros = spark.read.format("csv").option("header", True).load("/aprendizado/modelo_carro")
+
+df_carros = df_carros.withColumn("preco", regexp_replace("preco","\$",""))
+display(df_carros)
+
+```
+
+<div align="center">
+    <img src="./Pngs/df_carros_tipagem.png" alt="DashGo Sistema" height="150">
+</div>
+
+---
+
+
 
 
 
