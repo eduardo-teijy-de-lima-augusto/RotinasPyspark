@@ -217,14 +217,14 @@ display(df_carros_spark_2)
 display(df_carros)
 
 ```
-
+---
 <div align="center">
-    <img src="./Pngs/df_carros_spark_2.png" alt="DashGo Sistema" height="250">
+    <img src="./Pngs/df_carros_spark_2.png" alt="DashGo Sistema" height="100">
 </div>
 
 
 <div align="center">
-    <img src="./Pngs/dfcarrosspark2.png" alt="DashGo Sistema" height="250">
+    <img src="./Pngs/dfcarrosspark2.png" alt="DashGo Sistema" height="100">
 </div>
 
 
