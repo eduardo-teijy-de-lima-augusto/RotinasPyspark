@@ -218,5 +218,16 @@ display(df_carros)
 
 ```
 
+<div align="center">
+    <img src="./Pngs/df_carros_spark_2.png" alt="DashGo Sistema" height="250">
+</div>
+
+---
+
+
+
+
+
+
 
 
