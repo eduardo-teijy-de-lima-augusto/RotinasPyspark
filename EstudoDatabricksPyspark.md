@@ -199,7 +199,18 @@ print(df_carros_pyspark.count())   # verificando o resultado do dataframe com o 
 ```
 ---
 
+> Usando o replace do pyspark
 
+```py
+
+#Lembrando que a função regex_replace é nativa do sql, sendo assim temos que importar a biblioteca do sql
+
+from pyspark.sql.function
+
+df_carros_spark_2 = df_carros     # definindo que o novo dataframe receberá os dados de df_carros
+df_carros_spark_2 = df_carros_spark_2.withColumn("preco", regex_replace("preco","$",""))
+
+```
 
 
 
