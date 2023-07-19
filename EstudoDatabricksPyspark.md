@@ -350,6 +350,25 @@ df_carros.printSchema()
 
 ```
 ---
+> Mais uma forma de TIPAR os dados é usar as FUNÇÕES.
+
+```py
+# Vamos importar a biblioteca que trata da função dos tipos de dados.
+from pyspark.sql.types import *
+
+#trocamos a informação "int" ou "double" pela função correta.
+df_carros = df_carros.select(
+                      col("id_carro").cast(IntegerType()),
+                      col("modelo_carro"),
+                      col("preco").cast(DoubleType()),
+                      col("id_carro")    
+)
+display(df_carros)
+df_carros.printSchema()
+
+```
+---
+
 
 
 
