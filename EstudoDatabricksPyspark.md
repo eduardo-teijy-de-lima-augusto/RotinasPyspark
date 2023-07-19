@@ -303,6 +303,50 @@ df_carros = df_carros.withColumn("id_carro", col("id_carro").cast("int")) \
 display(df_carros)
 
 ```
+> Outra forma seria usando o select ****(Aparentemente é mais simples)** e o que pude perceber é que ele traz apenas o resultado das colunas selecionadas.
+
+```py
+# nao podemos esquecer de importar a biblioteca do sql para esse tipo de alteração.
+from pyspark.sql.functions import *
+
+#Tipagem da coluna id_carro para int.
+# O grande problema aqui é que isso ficará setado no df e as outras colunas se perderão.
+# Então como tratar isso corretamente, o withColumn é melhor?
+df_carros = df_carros.Select(
+                      col("id_carro").cast("int")),
+                      col("preco")   .cast("double"))
+
+display(df_carros)
+
+```
+---
+
+> NESSE EXEMPLO, VAMOS REFAZER para entender o processo do uso do select para tipagem.
+
+```py
+
+# nao podemos esquecer de importar a biblioteca do sql para esse tipo de alteração.
+from pyspark.sql.functions import *
+
+# Como ja setamos o df sem as colunas no exemplo anterior, vamos ter que ler novamente a fonte de dados.
+
+df_carros = spark.read.format("csv") \
+           .option("header", True) \
+           .load("aprendizado/modelo_carro")
+
+
+# Agora vamos também colocar as colunas modelo_carro e id_carro que não vão receber tipagem.
+# Então como tratar isso corretamente, o withColumn é melhor?
+df_carros = df_carros.Select(
+                      col("id_carro").cast("int")),
+                      col("modelo_carro"),
+                      col("preco")   .cast("double"))
+                      col("id_carro")    #dessa forma garatimos que df tem todas as colunas.
+
+display(df_carros)
+
+```
+
 
 
 
