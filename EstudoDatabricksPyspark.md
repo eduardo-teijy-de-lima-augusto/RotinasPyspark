@@ -245,7 +245,47 @@ display(df_carros)
 </div>
 
 ---
-adsflçasdjfdalçkjlj
+> Vamos fazer um código sql para alterar a tipagem dos dados.
+
+```py
+#criando uma tabela temporaria para receber o codigo sql
+
+df_carros.createOrReplaceTemView("carros")
+
+```
+
+```sql
+%sql       
+--Select para tipar os dados e gravar no dataframe posteriormente
+SELECT
+     CAST(id_carro as int) id_carro,
+     modelo_carro,
+     CAST(preco as double) preco,
+     CAST(cod_marca as int) cod_marca
+FROM CARROS
+
+```
+> Com o select pronto agora vamos atribuir ao dataframe o resultado, desta forma ele irá receber a informação.
+
+```py
+
+# Dataframe recebe o select ja tipando os dados da consulta.
+df_carros = spark.sql("""
+
+SELECT
+     CAST(id_carro as int) id_carro,
+     modelo_carro,
+     CAST(preco as double) preco,
+     CAST(cod_marca as int) cod_marca
+FROM CARROS
+""")
+
+#Verificando o resultado e também a tipagem que esta no dataframe.
+display(df_carros)
+
+df_carros.printSchema()
+
+```
 
 
 
