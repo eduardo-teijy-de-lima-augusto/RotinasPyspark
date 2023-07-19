@@ -329,23 +329,28 @@ display(df_carros)
 from pyspark.sql.functions import *
 
 # Como ja setamos o df sem as colunas no exemplo anterior, vamos ter que ler novamente a fonte de dados.
+df_carros = spark.read.format("csv")\
+            .option("header", True)\
+            .load("/aprendizado/modelo_carro")
 
-df_carros = spark.read.format("csv") \
-           .option("header", True) \
-           .load("aprendizado/modelo_carro")
+#Nesse caso estamos novamente fazendo replace do caractere $ da coluna preço.
+df_carros = df_carros.withColumn("preco", regexp_replace("preco", "\$",""))
 
 
 # Agora vamos também colocar as colunas modelo_carro e id_carro que não vão receber tipagem.
 # Então como tratar isso corretamente, o withColumn é melhor?
-df_carros = df_carros.Select(
-                      col("id_carro").cast("int")),
+df_carros = df_carros.select(
+                      col("id_carro").cast("int"),
                       col("modelo_carro"),
-                      col("preco")   .cast("double"))
-                      col("id_carro")    #dessa forma garatimos que df tem todas as colunas.
-
+                      col("preco")   .cast("double"),
+                      col("id_carro")    
+)
 display(df_carros)
+df_carros.printSchema()
 
 ```
+---
+
 
 
 
