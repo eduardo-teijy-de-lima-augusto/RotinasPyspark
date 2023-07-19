@@ -343,7 +343,7 @@ df_carros = df_carros.select(
                       col("id_carro").cast("int"),
                       col("modelo_carro"),
                       col("preco").cast("double"),
-                      col("id_carro")    
+                      col("cod_marca")    
 )
 display(df_carros)
 df_carros.printSchema()
@@ -361,7 +361,7 @@ df_carros = df_carros.select(
                       col("id_carro").cast(IntegerType()),
                       col("modelo_carro"),
                       col("preco").cast(DoubleType()),
-                      col("id_carro")    
+                      col("cod_marca")    
 )
 display(df_carros)
 df_carros.printSchema()
