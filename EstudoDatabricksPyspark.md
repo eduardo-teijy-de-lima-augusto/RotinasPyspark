@@ -342,7 +342,7 @@ df_carros = df_carros.withColumn("preco", regexp_replace("preco", "\$",""))
 df_carros = df_carros.select(
                       col("id_carro").cast("int"),
                       col("modelo_carro"),
-                      col("preco")   .cast("double"),
+                      col("preco").cast("double"),
                       col("id_carro")    
 )
 display(df_carros)
