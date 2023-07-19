@@ -265,6 +265,8 @@ SELECT
 FROM CARROS
 
 ```
+
+---
 > Com o select pronto agora vamos atribuir ao dataframe o resultado, desta forma ele irá receber a informação.
 
 ```py
@@ -284,6 +286,21 @@ FROM CARROS
 display(df_carros)
 
 df_carros.printSchema()
+
+```
+
+---
+> Vamos tipar usando apenas pyspark agora.
+
+```py
+# nao podemos esquecer de importar a biblioteca do sql para esse tipo de alteração.
+from pyspark.sql.functions import *
+
+#Tipagem da coluna id_carro para int.
+df_carros = df_carros.withColumn("id_carro", col("id_carro").cast("int")) \
+                     .withColumn("preco",    col("preco")   .cast("double"))
+
+display(df_carros)
 
 ```
 
