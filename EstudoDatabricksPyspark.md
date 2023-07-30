@@ -513,7 +513,7 @@ display(df_carros_pyspark)
 ```
 ---
 
-## Trabalhando com tipagem de datas no pyspark. Esse bloco é importante, pois trabalhar com datas não é simples.
+## Trabalhando com tipagem de datas no pyspark.
 
 ```py 
 # Exemplos de formatos de data lembrando que todas estão como string.
