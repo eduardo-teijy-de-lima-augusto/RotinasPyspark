@@ -627,6 +627,8 @@ df_datas_3_spark = df_datas_3_spark.withColumn("datas", to_date("datas", "dd/MM/
 display(df_datas_3_spark)
 
 ```
+## Databricks: INNER JOIN, RIGHT e LEFT JOIN usando PySpark e SQL
+
 
 
 
