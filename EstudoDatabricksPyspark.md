@@ -538,15 +538,49 @@ df_datas_3.createOrReplaceTempView("datas_3")
 
 ```
 
-```py
+```sql
 %sql
+--Percebi que temos que fazer um bloco de cada vez para o sql, ele nao aceita 2 selects.
 SELECT
-    CAST(datas AS DATE) data
+    CAST(datas AS DATE) data,
+    TO_TIMESTAMP(datas) data_timestamp
 FROM DATAS_1
 
 ```
 
+```sql
+%sql
+--Exemplo com timestamp
+SELECT
+    TO_TIMESTAMP(datas AS DATE) data
+FROM DATAS_1
 
+```
+
+```sql
+%sql
+SELECT
+--Aqui estamos fazendo os 2 exemplos de uma vez só.
+    CAST(datas AS DATE) data,
+    TO_TIMESTAMP(datas) data_timestamp
+FROM DATAS_1
+```
+
+```py
+#Agora vamos usar o select para gravar em um dataframe o resultado e verificar se o campo realmente mudou a tipagem para date e timestamp.
+df_datas_1_tip = spark.sql("""
+SELECT
+    CAST(datas AS DATE) data,
+    TO_TIMESTAMP(datas) data_timestamp
+FROM DATAS_1                           
+""")
+
+display(df_datas_1_tip)
+
+```
+<div align="center">
+    <img src="./Pngs/Data.png" alt="DashGo Sistema" height="350">
+</div>
 
 
 
