@@ -567,7 +567,8 @@ FROM DATAS_1
 ```
 
 ```py
-#Agora vamos usar o select para gravar em um dataframe o resultado e verificar se o campo realmente mudou a tipagem para date e timestamp.
+#Agora vamos usar o select para gravar em um dataframe o resultado e verificar 
+#se o campo realmente mudou a tipagem para date e timestamp.
 df_datas_1_tip = spark.sql("""
 SELECT
     CAST(datas AS DATE) data,
