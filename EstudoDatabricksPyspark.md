@@ -199,6 +199,30 @@ print(df_carros_pyspark.count())   # verificando o resultado do dataframe com o 
 ```
 ---
 
+> Select simples no pyspark
+
+```py
+# Tipos de selects no pyspark
+df_carros = df_carros.select("modelo_carro", "id_carro")
+dysplay(df_carros)
+
+# Tipos de selects no pyspark
+df_carros = df_carros.select(col("modelo_carro").alias("modelo"), col("id_carro).alias("ID"))
+dysplay(df_carros)
+
+# Tipos de selects no pyspark
+df_carros = df_carros.select(col("modelo_carro").alias("modelo"), col("id_carro).alias("ID"))
+dysplay(df_carros)
+
+
+
+
+```
+
+
+
+
+
 > Usando o replace do pyspark
 
 ```py
