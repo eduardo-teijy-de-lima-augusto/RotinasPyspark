@@ -251,7 +251,7 @@ display(df_carros)
 
 ---
 
-> Tipagem de dados usando databricks, fonte: https://docs.databricks.com/sql/language-manual/sql-ref-datatypes.html
+## Tipagem de dados usando databricks, fonte: https://docs.databricks.com/sql/language-manual/sql-ref-datatypes.html
 
 ```py
 
@@ -513,7 +513,7 @@ display(df_carros_pyspark)
 ```
 ---
 
-> Trabalhando com tipagem de datas no pyspark.
+## Trabalhando com tipagem de datas no pyspark. Esse bloco é importante, pois trabalhar com datas não é simples.
 
 ```py 
 # Exemplos de formatos de data lembrando que todas estão como string.
