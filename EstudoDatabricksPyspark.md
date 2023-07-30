@@ -422,16 +422,16 @@ df_carros.printSchema()
 
 ```py
 # Vamos criar uma tabela temporaria em sql para exemplo
-
-df_carros.CreateOrReplaceView(carros)
-df_carros = df_carros.sql("""
+df_carros.createOrReplaceTempView("carro")
+df_carros_like = spark.sql("""
 
 SELECT *
-FROM carros
+FROM carro
 WHERE modelo_carro Like "%alo%"
 
 """)
 
+display(df_carros_like)
 
 ``````
 
