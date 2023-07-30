@@ -477,8 +477,74 @@ df_carros_spark = df_carros_spark.where(
 display(df_carros_spark)
 
 ```
+---
+
+> Substring Left e Right.
+
+```py
+# Exemplo gravando em um dataframe df_carros_sql o resultado da query em sql.
+df_carros_sql = df_carros
+df_carros_sql = spark.sql("""
+SELECT
+      modelo_carro,
+      SUBSTRING(MODELO_CARRO,2,3) as substring,
+      LEFT(modelo_carro,2) left,
+      RIGHT(modelo_carro,2) right
+FROM carro
+""")
+display(df_carros_sql)
+
+```
+
+```py
+#Escrevendo em pyspark.
+#Concatenação importante. Verificar cada função pois muda muito do SQL.
+df_carros_pyspark = df_carros
+df_carros_pyspark = df_carros_pyspark.withColumn(
+    "modelo_sub", substring("modelo_carro", 3, 1)
+).withColumn(
+    "modelo_RIGHT", expr("RIGHT (modelo_carro, 2)")  #usa expr 
+).withColumn(
+    "modelo_LEFT", expr("LEFT (modelo_carro,2)")     #usa expr
+)
+
+display(df_carros_pyspark)
+
+```
+---
+
+> Trabalhando com tipagem de datas no pyspark.
+
+```py 
+# Exemplos de formatos de data lembrando que todas estão como string.
+df_datas_1 = spark.createDataFrame(["2021-07-05T10:00:00.000+0000","2020-12-05T09:00:00.000+0000","2017-02-23T16:23:00.000+0000"], "string").toDF("datas")
+df_datas_2 = spark.createDataFrame(["2021-07-05 10:00","2020-12-05 09:00","2017-02-23 16:00"], "string").toDF("datas")
+df_datas_3 = spark.createDataFrame(["2021-07-05","2020-12-05","2017-02-23"], "string").toDF("datas")
+
+display(df_datas_1)
+display(df_datas_2)
+display(df_datas_3)
+
+```
 
 
+> Vamos escrever primeiro em sql so como exemplo para fixar bem.
+
+```py
+#Primeiro temos que criar as tabelas temporárias que receberão o codigo sql.
+df_datas_1.createOrReplaceTempView("datas_1")
+df_datas_2.createOrReplaceTempView("datas_2")
+df_datas_3.createOrReplaceTempView("datas_3")
+
+```
+
+```py
+%sql
+SELECT
+    CAST(datas AS DATE) data
+FROM DATAS_1
+
+```
 
 
 
