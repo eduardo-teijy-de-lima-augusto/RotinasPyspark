@@ -399,23 +399,24 @@ df_carros.printSchema()
 
 ```py 
 from pyspark.sql.functions import *
-from pyspark.types import *
+from pyspark.sql.types import *
 
 # Vamos ler os dados.
 df_carros = spark.read. format("csv").option("header", True).load("/aprendizado/modelo_carro")
 
 # Remove caractere especial
-df_carros = df_carros.withColumn("preco", regex_replace(col("preco"),"\$",""))
+df_carros = df_carros.withColumn("preco", regexp_replace(col("preco"),"\$",""))
 
 # Tipar os dados
 df_carros = df_carros.select(
-                              col("id_carro").cast(IntegerType),
+                              col("id_carro").cast(IntegerType()),
                               "modelo_carro",
-                              col("preco").cast(DoubleType()),
+                              col("preco").cast(DoubleType()),   #podemos usar DecimalTyes(18,2) por exemplo
                               col("cod_marca").cast(IntegerType())
                             )
 
 ```
+
 
 
 
