@@ -433,15 +433,51 @@ WHERE modelo_carro Like "%alo%"
 
 display(df_carros_like)
 
-``````
+```
 
 ```sql
 
+%sql
+-- Para escrever em linguagem sql.
+SELECT *
+FROM carro
+WHERE modelo_carro Like "%alo%"
 
 
-
+%sql
+-- exemplo do between
+SELECT *
+FROM carro
+WHERE preco Between 60000 and 75000
 
 ```
+
+---
+
+> Agora vamos escrever o like e o between em pyspark.
+
+```py
+# Like no pyspark
+
+df_carros_spark = df_carros
+# Detalhe importante que a a cada dataframe novo deve se chamar o mesmo e depois do = selecionar o que se quer.
+df_carros_spark = df_carros_spark.where(
+ col("modelo_carro").like("%alo%")
+)
+display(df_carros_spark)
+
+```
+
+```py
+# Between
+df_carros_spark = df_carros
+df_carros_spark = df_carros_spark.where(
+ col("preco").between(50000, 75000)
+)
+display(df_carros_spark)
+
+```
+
 
 
 
