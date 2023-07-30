@@ -604,6 +604,30 @@ FROM datas_3
     <img src="./Pngs/Data1.png" alt="DashGo Sistema" height="450">
 </div>
 
+```py
+#Sempre importar as bibliotecas necessárias para os comandos.
+from pyspark.sql.functions import *
+
+#Agora vamos fazer em pyspark a tipagem dessas datas.
+df_datas_1_spark = df_datas_1
+df_datas_1_spark = df_datas_1_spark.withColumn("datas", to_timestamp("datas"))
+
+display(df_datas_1_spark)
+
+#Tipando df_datas_2 lembrando que ja segue um padrao e tem apenas as horas junto, (yyyy-MM-dd HH:mm)
+df_datas_2_spark = df_datas_2
+df_datas_2_spark = df_datas_2_spark.withColumn("datas", to_date("datas"))
+
+display(df_datas_2_spark)
+
+#Tipando df_datas_3 lembrando que ja segue um padrao diferente, (dd/MM/yyyy)                                               
+df_datas_3_spark = df_datas_3
+df_datas_3_spark = df_datas_3_spark.withColumn("datas", to_date("datas", "dd/MM/yyy"))  # se tivesse a hora e minuto poderiamos deixar como to_date ou to_timestamp adicionando "dd/mm/yyyy HH:mm"
+
+display(df_datas_3_spark)
+
+```
+
 
 
 
