@@ -1,4 +1,5 @@
 # Projeto Estudo Databricks com Pyspark.
+## Pesquisar sobre o case sensitive por exemplo nas palavras usando LIKE.
 
 
 
@@ -414,6 +415,31 @@ df_carros = df_carros.select(
                               col("preco").cast(DoubleType()),   #podemos usar DecimalTyes(18,2) por exemplo
                               col("cod_marca").cast(IntegerType())
                             )
+display(df_carros)
+df_carros.printSchema()
+
+```
+
+```py
+# Vamos criar uma tabela temporaria em sql para exemplo
+
+df_carros.CreateOrReplaceView(carros)
+df_carros = df_carros.sql("""
+
+SELECT *
+FROM carros
+WHERE modelo_carro Like "%alo%"
+
+""")
+
+
+``````
+
+```sql
+
+
+
+
 
 ```
 
