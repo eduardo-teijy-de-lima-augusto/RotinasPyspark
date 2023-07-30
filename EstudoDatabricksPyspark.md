@@ -583,6 +583,26 @@ display(df_datas_1_tip)
     <img src="./Pngs/Data.png" alt="DashGo Sistema" height="350">
 </div>
 
+```sql
+%sql
+--Select em datas_3 tendo como resultado dd/MM/yyyy
+SELECT
+   datas 
+FROM datas_3
+
+```
+```sql
+%sql
+--Datas_3 esta no formato dd/MM/yyyy então vamos fazer um select em sql para transformar em date.
+SELECT
+   TO_DATE(datas, "dd/MM/yyyy") datas
+FROM datas_3
+
+```
+
+<div align="center">
+    <img src="./Pngs/Data1.png" alt="DashGo Sistema" height="450">
+</div>
 
 
 
