@@ -1,4 +1,5 @@
 # Projeto Estudo Databricks com Pyspark.
+## Pesquisar sobre o case sensitive por exemplo nas palavras usando LIKE.
 
 
 
@@ -199,6 +200,32 @@ print(df_carros_pyspark.count())   # verificando o resultado do dataframe com o 
 ```
 ---
 
+> Select simples no pyspark. Lembrando sempre que uma vez setado o df correspondente, outros nao trarão o mesmo resultado.
+
+```py
+from pyspark.sql.functions import *
+
+# Tipos de selects no pyspark
+df_carros = df_carros.select("modelo_carro", "id_carro")
+display(df_carros)
+
+# Tipos de selects no pyspark
+df_carros = df_carros.select(col("modelo_carro").alias("modelo"), col("id_carro").alias("ID"))
+display(df_carros)
+
+
+```
+
+```py
+from pyspark.sql.functions import *
+
+
+# Tipos de selects no pyspark
+df_carros1 = df_carros.selectExpr("modelo_carro AS modelo", "id_carro")
+display(df_carros1)
+
+```
+
 > Usando o replace do pyspark
 
 ```py
@@ -224,7 +251,7 @@ display(df_carros)
 
 ---
 
-> Tipagem de dados usando databricks, fonte: https://docs.databricks.com/sql/language-manual/sql-ref-datatypes.html
+## Tipagem de dados usando databricks, fonte: https://docs.databricks.com/sql/language-manual/sql-ref-datatypes.html
 
 ```py
 
@@ -369,8 +396,238 @@ df_carros.printSchema()
 ```
 ---
 
+> Like e Between no pyspark.
+
+```py 
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+# Vamos ler os dados.
+df_carros = spark.read. format("csv").option("header", True).load("/aprendizado/modelo_carro")
+
+# Remove caractere especial
+df_carros = df_carros.withColumn("preco", regexp_replace(col("preco"),"\$",""))
+
+# Tipar os dados
+df_carros = df_carros.select(
+                              col("id_carro").cast(IntegerType()),
+                              "modelo_carro",
+                              col("preco").cast(DoubleType()),   #podemos usar DecimalTyes(18,2) por exemplo
+                              col("cod_marca").cast(IntegerType())
+                            )
+display(df_carros)
+df_carros.printSchema()
+
+```
+
+```py
+# Vamos criar uma tabela temporaria em sql para exemplo
+df_carros.createOrReplaceTempView("carro")
+df_carros_like = spark.sql("""
+
+SELECT *
+FROM carro
+WHERE modelo_carro Like "%alo%"
+
+""")
+
+display(df_carros_like)
+
+```
+
+```sql
+
+%sql
+-- Para escrever em linguagem sql.
+SELECT *
+FROM carro
+WHERE modelo_carro Like "%alo%"
 
 
+%sql
+-- exemplo do between
+SELECT *
+FROM carro
+WHERE preco Between 60000 and 75000
+
+```
+
+---
+
+> Agora vamos escrever o like e o between em pyspark.
+
+```py
+# Like no pyspark
+
+df_carros_spark = df_carros
+# Detalhe importante que a a cada dataframe novo deve se chamar o mesmo e depois do = selecionar o que se quer.
+df_carros_spark = df_carros_spark.where(
+ col("modelo_carro").like("%alo%")
+)
+display(df_carros_spark)
+
+```
+
+```py
+# Between
+df_carros_spark = df_carros
+df_carros_spark = df_carros_spark.where(
+ col("preco").between(50000, 75000)
+)
+display(df_carros_spark)
+
+```
+---
+
+> Substring Left e Right.
+
+```py
+# Exemplo gravando em um dataframe df_carros_sql o resultado da query em sql.
+df_carros_sql = df_carros
+df_carros_sql = spark.sql("""
+SELECT
+      modelo_carro,
+      SUBSTRING(MODELO_CARRO,2,3) as substring,
+      LEFT(modelo_carro,2) left,
+      RIGHT(modelo_carro,2) right
+FROM carro
+""")
+display(df_carros_sql)
+
+```
+
+```py
+#Escrevendo em pyspark.
+#Concatenação importante. Verificar cada função pois muda muito do SQL.
+df_carros_pyspark = df_carros
+df_carros_pyspark = df_carros_pyspark.withColumn(
+    "modelo_sub", substring("modelo_carro", 3, 1)
+).withColumn(
+    "modelo_RIGHT", expr("RIGHT (modelo_carro, 2)")  #usa expr 
+).withColumn(
+    "modelo_LEFT", expr("LEFT (modelo_carro,2)")     #usa expr
+)
+
+display(df_carros_pyspark)
+
+```
+---
+
+## Trabalhando com tipagem de datas no pyspark.
+
+```py 
+# Exemplos de formatos de data lembrando que todas estão como string.
+df_datas_1 = spark.createDataFrame(["2021-07-05T10:00:00.000+0000","2020-12-05T09:00:00.000+0000","2017-02-23T16:23:00.000+0000"], "string").toDF("datas")
+df_datas_2 = spark.createDataFrame(["2021-07-05 10:00","2020-12-05 09:00","2017-02-23 16:00"], "string").toDF("datas")
+df_datas_3 = spark.createDataFrame(["2021-07-05","2020-12-05","2017-02-23"], "string").toDF("datas")
+
+display(df_datas_1)
+display(df_datas_2)
+display(df_datas_3)
+
+```
+
+
+> Vamos escrever primeiro em sql so como exemplo para fixar bem.
+
+```py
+#Primeiro temos que criar as tabelas temporárias que receberão o codigo sql.
+df_datas_1.createOrReplaceTempView("datas_1")
+df_datas_2.createOrReplaceTempView("datas_2")
+df_datas_3.createOrReplaceTempView("datas_3")
+
+```
+
+```sql
+%sql
+--Percebi que temos que fazer um bloco de cada vez para o sql, ele nao aceita 2 selects.
+SELECT
+    CAST(datas AS DATE) data,
+    TO_TIMESTAMP(datas) data_timestamp
+FROM DATAS_1
+
+```
+
+```sql
+%sql
+--Exemplo com timestamp
+SELECT
+    TO_TIMESTAMP(datas AS DATE) data
+FROM DATAS_1
+
+```
+
+```sql
+%sql
+SELECT
+--Aqui estamos fazendo os 2 exemplos de uma vez só.
+    CAST(datas AS DATE) data,
+    TO_TIMESTAMP(datas) data_timestamp
+FROM DATAS_1
+```
+
+```py
+#Agora vamos usar o select para gravar em um dataframe o resultado e verificar 
+#se o campo realmente mudou a tipagem para date e timestamp.
+df_datas_1_tip = spark.sql("""
+SELECT
+    CAST(datas AS DATE) data,
+    TO_TIMESTAMP(datas) data_timestamp
+FROM DATAS_1                           
+""")
+
+display(df_datas_1_tip)
+
+```
+<div align="center">
+    <img src="./Pngs/Data.png" alt="DashGo Sistema" height="350">
+</div>
+
+```sql
+%sql
+--Select em datas_3 tendo como resultado dd/MM/yyyy
+SELECT
+   datas 
+FROM datas_3
+
+```
+```sql
+%sql
+--Datas_3 esta no formato dd/MM/yyyy então vamos fazer um select em sql para transformar em date.
+SELECT
+   TO_DATE(datas, "dd/MM/yyyy") datas
+FROM datas_3
+
+```
+
+<div align="center">
+    <img src="./Pngs/Data1.png" alt="DashGo Sistema" height="450">
+</div>
+
+```py
+#Sempre importar as bibliotecas necessárias para os comandos.
+from pyspark.sql.functions import *
+
+#Agora vamos fazer em pyspark a tipagem dessas datas.
+df_datas_1_spark = df_datas_1
+df_datas_1_spark = df_datas_1_spark.withColumn("datas", to_timestamp("datas"))
+
+display(df_datas_1_spark)
+
+#Tipando df_datas_2 lembrando que ja segue um padrao e tem apenas as horas junto, (yyyy-MM-dd HH:mm)
+df_datas_2_spark = df_datas_2
+df_datas_2_spark = df_datas_2_spark.withColumn("datas", to_date("datas"))
+
+display(df_datas_2_spark)
+
+#Tipando df_datas_3 lembrando que ja segue um padrao diferente, (dd/MM/yyyy)                                               
+df_datas_3_spark = df_datas_3
+df_datas_3_spark = df_datas_3_spark.withColumn("datas", to_date("datas", "dd/MM/yyy"))  # se tivesse a hora e minuto poderiamos deixar como to_date ou to_timestamp adicionando "dd/mm/yyyy HH:mm"
+
+display(df_datas_3_spark)
+
+```
+## Databricks: INNER JOIN, RIGHT e LEFT JOIN usando PySpark e SQL
 
 
 
