@@ -629,8 +629,17 @@ display(df_datas_3_spark)
 ```
 ## Databricks: INNER JOIN, RIGHT e LEFT JOIN usando PySpark e SQL
 
+```py
+from pyspark.sql.functions import *
 
+# Lendo os 2 arquivos e lembrando que as origens nao estão duplicadas, mas conforme o curso foi acontecendo modelo_carro tem 2.000 registros. (duplicados)
+df_carros = spark.read.format("csv").option("header","true").load("/aprendizado/modelo_carro")
+df_marcas = spark.read.format("csv").option("header","true").load("/aprendizado/marca_carro")
 
+display(df_carros)
+display(df_marcas)
+
+```
 
 
 
