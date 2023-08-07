@@ -870,7 +870,7 @@ display(df_carros_spark)
 
 
 <div align="center">
-    <img src="./Pngs/Carro_NUll.png" alt="DashGo Sistema" height="150">
+    <img src="./Pngs/Carro_Null.png" alt="DashGo Sistema" height="150">
 </div>
 
 ---
@@ -885,7 +885,7 @@ display(df_carros_spark)
 
 ```
 <div align="center">
-    <img src="./Pngs/Carro_Nao_NUll.png" alt="DashGo Sistema" height="200">
+    <img src="./Pngs/Carro_Nao_Null.png" alt="DashGo Sistema" height="200">
 </div>
 
 ## Funções de agregação usando SQL e PySpark.
