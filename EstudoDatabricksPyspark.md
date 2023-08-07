@@ -944,8 +944,34 @@ SELECT *,
 FROM CARROS.
 
 ```
+> Agora vamos escrever em PySpark.
 
+```py
+# Dessa forma estamos verificando cada modelo pelo preço em ordem ASC
+df_carros = df_carros.withColumn(
+    "row_number",
+    row_number().over(
+        Windows.partitionBy("modelo_carro").orderBy("preco")
+    )
+)
 
+display(df_carros)
+
+```
+
+```py
+# Podemos também informar se sera ASC ou DESC adicionando a função col
+df_carros = df_carros.withColumn(
+    "row_number",
+    row_number().over(
+        Windows.partitionBy("modelo_carro").orderBy(col("preco").desc())
+    )
+)
+
+```
+<div align="center">
+    <img src="./Pngs/Carros_ROWNUMBER.png" alt="DashGo Sistema" height="200">
+</div>
 
 
 
