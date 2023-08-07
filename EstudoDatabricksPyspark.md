@@ -758,7 +758,25 @@ df_carros_source.createOrReplaceTempView("carros_source")
 df_carros_final.createOrReplaceTempView("carros_final")
 
 ```
+> Consulta em SQL de exemplo pegando id_carro iguais nas duas tabelas.
+```py
+%sql
+SELECT *
+FROM CARROS_SOURCE A
+WHERE EXISTS(SELECT * FROM CARROS_SOURCE B WHERE A.ID_CARRO=B.ID_CARRO)
 
+```
+> Gerando um dataframe com o resultado da consulta em SQL.
+
+```py
+df_carros.sql=spark.sql("""
+                           SELECT *
+                           FROM CARROS_SOURCE A
+                           WHERE EXISTS(SELECT * FROM CARROS_SOURCE B WHERE A.ID_CARRO=B.ID_CARRO)
+
+""")
+
+```
 
 
 
