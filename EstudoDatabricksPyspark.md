@@ -722,7 +722,35 @@ df_carros,
 display(df_right_spark)
 
 ```
+## Funções EXISTS e LEFT SEMI JOIN no SQL e Pyspark.
 
+```py
+from pyspark.sql.functions import *
+
+# Leitura do arquivo lembrando que estamos usando distincit pois ha duplicações no mesmo por outros estudos.
+df_carros = spark.read.format("csv").option("header",True).load("/aprendizado/modelo_carro").distinct()
+
+display(df_carros)
+
+# Selecionando apenas 3 id_carros para o exemplo
+df_carros_source = df_carros.where(
+    (col("id_carro") == '1') |
+    (col("id_carro") == '2') | 
+    (col("id_carro") == '3') 
+)
+
+# Selecionando 4 id_carros para o exemplo.
+df_carros_final = df_carros.where(
+    (col("id_carro") == '1') |
+    (col("id_carro") == '2') | 
+    (col("id_carro") == '3') |
+    (col("id_carro") == '4')
+)
+
+display(df_carros_source)
+display(df_carros_final)
+
+```
 
 
 
