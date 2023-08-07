@@ -769,14 +769,168 @@ WHERE EXISTS(SELECT * FROM CARROS_SOURCE B WHERE A.ID_CARRO=B.ID_CARRO)
 > Gerando um dataframe com o resultado da consulta em SQL.
 
 ```py
-df_carros.sql=spark.sql("""
-                           SELECT *
-                           FROM CARROS_SOURCE A
-                           WHERE EXISTS(SELECT * FROM CARROS_SOURCE B WHERE A.ID_CARRO=B.ID_CARRO)
-
-""")
+df_carros_sql=spark.sql("""
+                        
+                        SELECT * 
+                        FROM CARROS_SOURCE A
+                        WHERE EXISTS(SELECT * FROM CARROS_SOURCE B WHERE A.ID_CARRO=B.ID_CARRO)
+                        
+                        """)
+display(df_carros_sql)
 
 ```
+> Testando agora em codigo spark.
+
+```py
+df_carros_spark=df_carros_source.join(
+    df_carros_final,
+    df_carros_source.id_carro == df_carros_final.id_carro,
+    "leftsemi"
+)
+
+display(df_carros_spark)
+```
+## NOT EXISTS e LEFT ANTI
+> Os Dfs serão os mesmos usados no EXISTS e LEFT SEMI para o exemplo. E tabelas temporarias para o SQL também serão as mesmas.
+
+
+
+```py
+%sql
+SELECT *
+FROM CARROS_FINAL A
+WHERE NOT EXISTS(SELECT 1 FROM CARROS_SOURCE B WHERE A.ID_CARRO=B.ID_CARRO)
+
+```
+> Escrevendo em pyspark.
+
+```py
+df_carros_spark =df_carros_final.join(
+    df_carros_source,
+    (df_carros_source.id_carro == df_carros_final.id_carro),
+    "leftanti"
+)
+
+display(df_carros_spark)
+
+```
+## Filtrando dados null e operador NOT.
+
+> Nesse exemplo vamos criar dataframes e fazer o UNION dos mesmos para conseguir chegar no exemplo.
+
+```py
+df_carros = spark.read.format("csv").option("header",True).load("/aprendizado/modelo_carro").distinct()
+
+# Selecionando apenas 3 id_carros para o exemplo
+df_carros = spark.read.format("csv").option("header",True).load("/aprendizado/modelo_carro").distinct()
+
+# Selecionando apenas 3 id_carros para o exemplo
+df_carros_2 = df_carros.where(
+    (col("id_carro") == '1') |
+    (col("id_carro") == '2') | 
+    (col("id_carro") == '3') 
+)
+
+# Selecionando 4 id_carro e colocando o preço como null.
+df_carros_3 = df_carros.where(
+    (col("id_carro") == '4')
+).withColumn("preco", lit(None))
+
+df_carros = df_carros_2.union(df_carros_3)
+
+display(df_carros)
+
+```
+<div align="center">
+    <img src="./Pngs/Carro_None.png" alt="DashGo Sistema" height="250">
+</div>
+
+> Resultado em sql para exemplo
+```py
+df_carros.createOrReplaceTempView("carros")
+
+```
+
+```py
+%sql
+SELECT *
+FROM CARROS
+WHERE preco IS NULL  --OU IS NOT NULL
+```
+> Escrevendo em pyspark
+```py
+#IMPORTANTE. A condição sempre será IsNull entretanto temos que usar o sinal de ~ dentro de () para usar a NEGAÇÃO ou seja IS NOT NULL *******
+df_carros_spark = df_carros.where(
+    col("preco").isNull()     #Nesse caso estamos apenas selecionando a coluna onde existe nulo no campo preco.
+)
+
+display(df_carros_spark)
+
+```
+
+
+<div align="center">
+    <img src="./Pngs/Carro_NUll.png" alt="DashGo Sistema" height="150">
+</div>
+
+---
+
+```py
+#IMPORTANTE. A condição sempre será IsNull entretanto temos que usar o sinal de ~ dentro de () para usar a NEGAÇÃO ou seja IS NOT NULL *******
+df_carros_spark = df_carros.where(
+    ~(col("preco").isNull())     #Nesse caso estamos selecionando tudo onde nao existe nulo no campo preco.
+)
+
+display(df_carros_spark)
+
+```
+<div align="center">
+    <img src="./Pngs/Carro_Nao_NUll.png" alt="DashGo Sistema" height="200">
+</div>
+
+## Funções de agregação usando SQL e PySpark.
+
+
+> Vamos carregar o dataframe, já remover o caractere especial e tipar para double(decimal)
+```py
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+df_carros=spark.read.format("csv").option("header","true").load("/aprendizado/modelo_carro")
+
+df_carros = df_carros.withColumn(
+        "preco",
+        regexp_replace("preco", "\$","").cast(DoubleType())
+)
+
+
+display(df_carros)
+
+```
+
+> Agora vamos escrever em pyspark.
+
+```py
+df_carros_spark = df_carros.groupBy(
+    "modelo_carro"
+).agg(
+    sum("preco"),
+    max("preco"),
+    min("preco")
+)
+
+
+display(df_carros_spark)
+
+```
+
+<div align="center">
+    <img src="./Pngs/Carros_GroupBy.png" alt="DashGo Sistema" height="200">
+</div>
+
+>>>>>Agrupamento por modelo_carro
+
+
 
 
 
