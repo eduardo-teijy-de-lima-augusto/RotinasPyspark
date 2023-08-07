@@ -715,10 +715,8 @@ df_right_spark = df_marcas.join(
 df_carros,
 (df_carros.cod_marca == df_marcas.cod_marca), "left"
 ).select(
- df_marcas.marca_carro,
- df_carros["*"]
-
-
+          df_marcas.marca_carro,
+          df_carros["*"]
 )
 
 display(df_right_spark)
