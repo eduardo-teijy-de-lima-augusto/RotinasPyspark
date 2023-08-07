@@ -640,6 +640,90 @@ display(df_carros)
 display(df_marcas)
 
 ```
+> Contagem das linhas e filtrando dados com distinct.
+
+```py
+#Contagem primeiro do total de registros do df
+print(df_carros.count())
+
+#Filtrando os registros e removendo o codigo 22 com distinct
+df_carros = df_carros.where(col("cod_marca") !='22').distinct()
+print(df_carros.count())
+
+# a retirada do codigo 22 irá ajudar no right e left join para exemplo pois as tabelas eram iguais.
+
+```
+> Exemplo do INNER JOIN em sql.
+```sql
+%sql
+SELECT a.*,b.*
+FROM carros A
+INNER JOIN marcas b on a.cod_marca=b.cod_marca
+
+```
+> Exemplo de INNER JOIN no pyspark
+
+```py
+# Criamos outro dataframe que vai receber o join
+df_innerjoin_spark = df_carros.join(
+df_marcas,
+(df_carros.cod_marca == df_marcas.cod_marca), "inner"
+)
+
+display(df_innerjoin_spark)
+
+```
+
+```py
+# Right join lembrando que nao usamos a opção where a.cod_marca is null **pesquisar.
+df_right_spark = df_carros.join(
+df_marcas,
+(df_carros.cod_marca == df_marcas.cod_marca), "right"
+)
+
+display(df_right_spark)
+
+```
+```py
+# Left join lembrando que nao usamos a opção where b.cod_marca is null **pesquisar.
+# Usamos o left e fique atento pois foi invertido os dfs entre df_carros e df_marcas
+# Nesse caso o codigo 22 ira aparecer mas em df_carros ficará como nulo pois nao tem filtro.
+df_right_spark = df_marcas.join(
+df_carros,
+(df_carros.cod_marca == df_marcas.cod_marca), "left"
+)
+
+display(df_right_spark)
+
+```
+
+```py
+df_leftjoin_spark = df_marcas.join(
+df_carros,
+(df_carros.cod_marca == df_marcas.cod_marca), "left"
+).where(df_carros.cod_marca.isNotNull())    #Filtro aplicado nao trazer nulos, codigo 22 nao aparece.
+
+display(df_leftjoin_spark)
+
+```
+
+
+```py
+# Vamos usar um select junto ao join para selecionar campos específicos.
+# Usamos o left e fique atento pois foi invertido os dfs entre df_carros e df_marcas
+df_right_spark = df_marcas.join(
+df_carros,
+(df_carros.cod_marca == df_marcas.cod_marca), "left"
+).select(
+ df_marcas.marca_carro,
+ df_carros["*"]
+
+
+)
+
+display(df_right_spark)
+
+```
 
 
 
