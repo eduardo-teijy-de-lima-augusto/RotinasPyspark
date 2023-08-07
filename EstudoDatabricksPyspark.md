@@ -914,9 +914,9 @@ display(df_carros)
 df_carros_spark = df_carros.groupBy(
     "modelo_carro"
 ).agg(
-    sum("preco"),
-    max("preco"),
-    min("preco")
+    sum("preco").alias("soma_precos"),
+    max("preco").alias("preco_maximo"),
+    min("preco").alias("preco_minimo")
 )
 
 
@@ -929,6 +929,23 @@ display(df_carros_spark)
 </div>
 
 >>>>>Agrupamento por modelo_carro
+
+---
+
+## Função ROW NUMBER usando SQL e PySpark.
+### Vamos usar o mesmo DF acima de leitura do arquivo para esse exemplo.
+
+> Analisando modelos de carros que tem preços e categorizando em linhas do preço menor para maior, ou vice versa.
+
+```py
+%sql
+SELECT *,
+       ROW_NUMBER() OVER (PARTITION BY modelo_carro ORDER BY preco) row_number
+FROM CARROS.
+
+```
+
+
 
 
 
