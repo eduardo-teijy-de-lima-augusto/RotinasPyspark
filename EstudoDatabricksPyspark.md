@@ -727,7 +727,7 @@ display(df_right_spark)
 ```py
 from pyspark.sql.functions import *
 
-# Leitura do arquivo lembrando que estamos usando distincit pois ha duplicações no mesmo por outros estudos.
+# Leitura do arquivo lembrando que estamos usando distinct pois ha duplicações no mesmo por outros estudos.
 df_carros = spark.read.format("csv").option("header",True).load("/aprendizado/modelo_carro").distinct()
 
 display(df_carros)
@@ -749,6 +749,13 @@ df_carros_final = df_carros.where(
 
 display(df_carros_source)
 display(df_carros_final)
+
+```
+---
+> Criação de duas tabelas temporarias para fazer o teste em SQL.
+```py
+df_carros_source.createOrReplaceTempView("carros_source")
+df_carros_final.createOrReplaceTempView("carros_final")
 
 ```
 
