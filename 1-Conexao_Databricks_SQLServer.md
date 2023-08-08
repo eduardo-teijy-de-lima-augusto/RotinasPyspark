@@ -49,6 +49,14 @@ pushdown_query = "(SELECT * FROM DDD_UF) query_alias"
 df = spark.read.jdbc(url=jdbcUrl, table=pushdown_query, properties=connectionProperties)
 display(df)
 
+#Leitura para um dataframe de uma tabela de SQLServer.
+df2 = spark.read.format("jdbc").option("url", "jdbc:sqlserver://wvs.duckdns.org:1433;database=CARGAS;ssl=false;encrypt=false") \
+          .option("user", "sa").option("password", "Sysadmin##").option("dbtable", "DDD_UF").load()
+
+print(df2.count())
+display(df2)
+
+
 ```
 ---
 
