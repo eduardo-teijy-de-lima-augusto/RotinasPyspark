@@ -26,6 +26,9 @@
     <img src="./Pngs/ClusterCreateMaven.png" alt="DashGo Sistema" height="250">
 </div>
 
+---
+
+### Tipos de conexões e leitura de tabelas no SQLServer.
 ```py
 #Conexao funcionando, informe usuario, senha, servidor, porta e database.
 jdbcUsername = "usuario"
@@ -49,7 +52,7 @@ display(df)
 ```
 ---
 
-# Outra forma de conexão que segue o mesmo princípio.
+### Outra forma de conexão que segue o mesmo princípio.
 
 ```py
 from pyspark.sql import SparkSession
